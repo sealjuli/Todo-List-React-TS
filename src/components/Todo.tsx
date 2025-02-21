@@ -15,7 +15,7 @@ export type addTask = (task: TaskType) => void;
 export type UpdTaskById = (id: string) => void;
 
 export type ActionWithMainTaskInfo = (obj: {
-    id: string;
+  id: string;
   value: string;
 }) => void;
 
@@ -62,14 +62,14 @@ export const Todo = (): JSX.Element => {
 
   return (
     <div>
-      <TaskInput addTask={addTask}></TaskInput>
+      <TaskInput addTask={addTask} />
       <Tasks
         tasks={tasks}
         deleteTask={deleteTask}
         updatingTask={updatingTask}
         updateTask={updateTask}
         doneTask={doneTask}
-      ></Tasks>
+      />
       <p className="logout">"Log out"</p>
     </div>
   );
