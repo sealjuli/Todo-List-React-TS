@@ -37,7 +37,7 @@ export const UpdatingTask = ({ id }: PropsType): JSX.Element => {
         onKeyDown={(e) => onKeyDownEnter(e, id)}
         value={updatingValue}
       />
-      <button onClick={onClickButton}>{'Update'}</button>
+      <button onClick={onClickButton}>Update</button>
     </>
   );
 };

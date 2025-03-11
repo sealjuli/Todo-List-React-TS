@@ -7,7 +7,7 @@ export const Todo = (): JSX.Element => {
     <div>
       <TaskInput />
       <Tasks />
-      <p className="logout">"Log out"</p>
+      <p className="logout">Log out</p>
     </div>
   );
 };

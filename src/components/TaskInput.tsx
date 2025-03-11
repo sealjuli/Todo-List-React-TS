@@ -32,14 +32,14 @@ export const TaskInput = (): JSX.Element => {
 
   return (
     <div>
-      <h2>{'Get things done!'}</h2>
+      <h2>Get things done!</h2>
       <input
         placeholder="What is the task today?"
         onChange={onAddTaskHandle}
         value={value}
         onKeyDown={(e) => onEnterAddTask(e)}
       />
-      <button onClick={onAddTask}>{'Add task'}</button>
+      <button onClick={onAddTask}>Add task</button>
     </div>
   );
 };
