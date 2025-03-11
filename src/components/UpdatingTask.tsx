@@ -1,33 +1,43 @@
-import { JSX, KeyboardEvent } from "react";
-import { UpdTaskById } from "./Todo";
-import { OnChangeInput } from "./Task";
+import { JSX, KeyboardEvent } from 'react';
+import { updateTask } from '../redux/actions/taskActions';
+import { updateValue } from '../redux/actions/updatingValueActions';
+import { useAppSelector, useAppDispatch } from '../hooks/hooks';
 
 type PropsType = {
   id: string;
-  onChangeInput: OnChangeInput;
-  onUpdateTask: UpdTaskById;
-  inputValue: string;
 };
 
-export const UpdatingTask = ({
-  id,
-  onChangeInput,
-  onUpdateTask,
-  inputValue,
-}: PropsType): JSX.Element => {
+export const UpdatingTask = ({ id }: PropsType): JSX.Element => {
+  const dispatch = useAppDispatch();
+
+  const updatingValue = useAppSelector(
+    (state) => state.updatingValueReducer.updatingValue,
+  );
+
   const onKeyDownEnter = (e: KeyboardEvent<HTMLInputElement>, id: string) => {
-    if (e.key === "Enter") return onUpdateTask(id);
+    if (e.key === 'Enter') {
+      dispatch(updateTask({ id, value: updatingValue }));
+    }
+  };
+
+  const onClickButton = () => {
+    dispatch(
+      updateTask({
+        id,
+        value: updatingValue,
+      }),
+    );
   };
 
   return (
     <>
       <input
         autoFocus
-        onChange={onChangeInput}
+        onChange={(event) => dispatch(updateValue(event.target.value))}
         onKeyDown={(e) => onKeyDownEnter(e, id)}
-        value={inputValue}
+        value={updatingValue}
       />
-      <button onClick={() => onUpdateTask(id)}>{"Update"}</button>
+      <button onClick={onClickButton}>{'Update'}</button>
     </>
   );
 };

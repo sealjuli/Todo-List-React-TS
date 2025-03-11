@@ -1,40 +1,45 @@
-import { JSX, ChangeEvent, KeyboardEvent } from "react";
-import { useState } from "react";
-import { addTask } from "./Todo";
+import { JSX, ChangeEvent, KeyboardEvent } from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { addTask } from '../redux/actions/taskActions';
+import { updateValue } from '../redux/actions/inputValueActions';
 
-type PropsType = {
-  addTask: addTask;
-};
+export const TaskInput = (): JSX.Element => {
+  const dispatch = useAppDispatch();
 
-export const TaskInput = ({ addTask }: PropsType): JSX.Element => {
-  const [value, setValue] = useState("");
+  const value = useAppSelector((state) => state.inputValueReducer.value);
 
   const onAddTask = () => {
     if (!value) return;
 
-    const uuid = crypto.randomUUID();
-    addTask({ value, id: uuid, isUpdating: false, isDone: false });
-    setValue("");
+    dispatch(
+      addTask({
+        value,
+        id: crypto.randomUUID(),
+        isUpdating: false,
+        isDone: false,
+      }),
+    );
+    dispatch(updateValue(''));
   };
 
   const onAddTaskHandle = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    dispatch(updateValue(e.target.value));
   };
 
   const onEnterAddTask = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") return onAddTask();
+    if (event.key === 'Enter') return onAddTask();
   };
 
   return (
     <div>
-      <h2>{"Get things done!"}</h2>
+      <h2>{'Get things done!'}</h2>
       <input
         placeholder="What is the task today?"
         onChange={onAddTaskHandle}
         value={value}
         onKeyDown={(e) => onEnterAddTask(e)}
       />
-      <button onClick={onAddTask}>{"Add task"}</button>
+      <button onClick={onAddTask}>{'Add task'}</button>
     </div>
   );
 };

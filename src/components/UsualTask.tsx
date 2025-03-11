@@ -1,35 +1,43 @@
-import { JSX } from "react";
-import { UpdTaskById, TaskType, ActionWithMainTaskInfo } from "./Todo";
+import { JSX } from 'react';
+import { useAppDispatch } from '../hooks/hooks';
+import {
+  deleteTask,
+  doneTask,
+  updatingTask,
+} from '../redux/actions/taskActions';
+import { updateValue } from '../redux/actions/updatingValueActions';
+import { TaskType } from '../types/TaskType';
 
 type PropsType = {
   task: TaskType;
-  onDoneTask: UpdTaskById;
-  onClickUpdating: ActionWithMainTaskInfo;
-  onClickDelete: UpdTaskById;
 };
 
-export const UsualTask = ({
-  task,
-  onDoneTask,
-  onClickUpdating,
-  onClickDelete,
-}: PropsType): JSX.Element => (
-  <>
-    <span
-      onClick={() => onDoneTask(task.id)}
-      className={task.isDone ? "taskSpan done" : "taskSpan"}
-    >
-      {task.value}
-    </span>
-    <img
-      className="icon"
-      src="update.png"
-      onClick={() => onClickUpdating(task)}
-    ></img>
-    <img
-      className="icon"
-      src="basket.png"
-      onClick={() => onClickDelete(task.id)}
-    ></img>
-  </>
-);
+export const UsualTask = ({ task }: PropsType): JSX.Element => {
+  const dispatch = useAppDispatch();
+
+  const onClickUpdate = (task: TaskType) => {
+    dispatch(updatingTask(task.id));
+    dispatch(updateValue(task.value));
+  };
+
+  return (
+    <>
+      <span
+        onClick={() => dispatch(doneTask(task.id))}
+        className={task.isDone ? 'taskSpan done' : 'taskSpan'}
+      >
+        {task.value}
+      </span>
+      <img
+        className="icon"
+        src="/Todo-List-React-TS/update.png"
+        onClick={() => onClickUpdate(task)}
+      ></img>
+      <img
+        className="icon"
+        src="/Todo-List-React-TS/basket.png"
+        onClick={() => dispatch(deleteTask(task.id))}
+      ></img>
+    </>
+  );
+};
