@@ -1,6 +1,6 @@
 export type TaskType = {
-    id: string;
-    value: string;
-    isUpdating: boolean;
-    isDone: boolean;
+    id: number;
+    title: string;
+    isUpdating?: boolean;
+    isCompleted: boolean;
 };

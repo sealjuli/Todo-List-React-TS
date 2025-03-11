@@ -1,20 +1,27 @@
-import React, { JSX } from 'react';
-import { UpdatingTask } from './UpdatingTask';
-import { UsualTask } from './UsualTask';
-import { TaskType } from '../types/TaskType';
+import React, { JSX } from 'react'
+import { useAppSelector } from '../hooks/hooks'
+import { selectTaskById } from '../redux/slices/todosSlice'
+import { UsualTask } from './UsualTask'
+import { UpdatingTask } from './UpdatingTask'
 
 type PropsType = {
-  task: TaskType;
-};
+  taskId: number
+}
 
-export const Task = React.memo(({ task }: PropsType): JSX.Element => {
+export const Task = React.memo(({ taskId }: PropsType): JSX.Element => {
+  const task = useAppSelector((state) => selectTaskById(state, taskId))
+
+  if (!task) {
+    return <div>Задача не найдена</div>
+  }
+
   return (
     <div key={task.id} className={task.isUpdating ? 'task isUpdating' : 'task'}>
       {task.isUpdating ? (
-        <UpdatingTask id={task.id} />
+        <UpdatingTask taskId={task.id} />
       ) : (
-        <UsualTask task={task} />
+        <UsualTask taskId={task.id} />
       )}
     </div>
-  );
-});
+  )
+})

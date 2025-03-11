@@ -1,43 +1,49 @@
-import { JSX } from 'react';
-import { useAppDispatch } from '../hooks/hooks';
+import { JSX } from 'react'
+import { useAppDispatch, useAppSelector } from '../hooks/hooks'
+import { updateValue } from '../redux/slices/updatingValueSlice'
 import {
-  deleteTask,
-  doneTask,
+  selectTaskById,
   updatingTask,
-} from '../redux/actions/taskActions';
-import { updateValue } from '../redux/actions/updatingValueActions';
-import { TaskType } from '../types/TaskType';
+  fetchDeleteTodos,
+  fetchPatchCompletedTodos,
+} from '../redux/slices/todosSlice'
+import { TaskType } from '../types/TaskType'
 
 type PropsType = {
-  task: TaskType;
-};
+  taskId: number
+}
 
-export const UsualTask = ({ task }: PropsType): JSX.Element => {
-  const dispatch = useAppDispatch();
+export const UsualTask = ({ taskId }: PropsType): JSX.Element => {
+  const dispatch = useAppDispatch()
+  const task = useAppSelector((state) => selectTaskById(state, taskId))
+
+  if (!task) {
+    return <div>Задача не найдена</div>
+  }
 
   const onClickUpdate = (task: TaskType) => {
-    dispatch(updatingTask(task.id));
-    dispatch(updateValue(task.value));
-  };
+    dispatch(updatingTask(task.id))
+    dispatch(updateValue(task.title))
+  }
 
   return (
     <>
       <span
-        onClick={() => dispatch(doneTask(task.id))}
-        className={task.isDone ? 'taskSpan done' : 'taskSpan'}
+        onClick={() => dispatch(fetchPatchCompletedTodos(task.id))}
+        className={task.isCompleted ? 'taskSpan done' : 'taskSpan'}
       >
-        {task.value}
+        {task.title}
       </span>
       <img
         className="icon"
-        src="/Todo-List-React-TS/update.png"
+        src="update.png"
         onClick={() => onClickUpdate(task)}
       ></img>
       <img
         className="icon"
-        src="/Todo-List-React-TS/basket.png"
-        onClick={() => dispatch(deleteTask(task.id))}
+        src="basket.png"
+        onClick={() => dispatch(fetchDeleteTodos(task.id))}
       ></img>
     </>
-  );
-};
+  )
+}

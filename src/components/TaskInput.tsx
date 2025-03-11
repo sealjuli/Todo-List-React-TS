@@ -1,34 +1,27 @@
-import { JSX, ChangeEvent, KeyboardEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/hooks';
-import { addTask } from '../redux/actions/taskActions';
-import { updateValue } from '../redux/actions/inputValueActions';
+import { JSX, ChangeEvent, KeyboardEvent } from 'react'
+import { useAppDispatch, useAppSelector } from '../hooks/hooks'
+import {
+  selectEnterValue,
+  updateEnterValue,
+} from '../redux/slices/enterValueSlice'
+import { fetchPostTodos } from '../redux/slices/todosSlice'
 
 export const TaskInput = (): JSX.Element => {
-  const dispatch = useAppDispatch();
-
-  const value = useAppSelector((state) => state.inputValueReducer.value);
+  const dispatch = useAppDispatch()
+  const value = useAppSelector(selectEnterValue)
 
   const onAddTask = () => {
-    if (!value) return;
+    dispatch(fetchPostTodos(value))
+    dispatch(updateEnterValue(''))
+  }
 
-    dispatch(
-      addTask({
-        value,
-        id: crypto.randomUUID(),
-        isUpdating: false,
-        isDone: false,
-      }),
-    );
-    dispatch(updateValue(''));
-  };
-
-  const onAddTaskHandle = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(updateValue(e.target.value));
-  };
+  const onAddTaskHandle = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(updateEnterValue(event.target.value))
+  }
 
   const onEnterAddTask = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') return onAddTask();
-  };
+    if (event.key === 'Enter') return onAddTask()
+  }
 
   return (
     <div>
@@ -37,9 +30,9 @@ export const TaskInput = (): JSX.Element => {
         placeholder="What is the task today?"
         onChange={onAddTaskHandle}
         value={value}
-        onKeyDown={(e) => onEnterAddTask(e)}
+        onKeyDown={(event) => onEnterAddTask(event)}
       />
       <button onClick={onAddTask}>Add task</button>
     </div>
-  );
-};
+  )
+}

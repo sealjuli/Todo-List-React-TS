@@ -1,14 +1,16 @@
-import { Task } from './Task';
-import { useAppSelector } from '../hooks/hooks';
+import { JSX } from 'react'
+import { useAppSelector } from '../hooks/hooks'
+import { selectTodos } from '../redux/slices/todosSlice'
+import { Task } from './Task'
 
-export const Tasks = () => {
-  const tasks = useAppSelector((state) => state.taskReducer.tasks);
+export const Tasks = (): JSX.Element => {
+  const tasks = useAppSelector(selectTodos)
 
   return (
     <div>
       {tasks.map((task) => (
-        <Task key={task.id} task={task} />
+        <Task key={task.id} taskId={task.id} />
       ))}
     </div>
-  );
-};
+  )
+}
