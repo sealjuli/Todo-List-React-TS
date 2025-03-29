@@ -2,21 +2,21 @@ import { JSX } from 'react'
 import { useNavigate } from 'react-router'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { ModalWindow } from './ModalWindow'
-import { RoutesClass } from '../helpers/Routes'
+import { MainRoutes } from '../helpers/Routes'
 import { fetchPostUser } from '../redux/slices/usersSlice'
 import { useAppDispatch } from '../hooks/hooks'
+
+type FormData = {
+  username: string
+  email: string
+  password: string
+  gender: string
+  age: number
+}
 
 export function RegisterPage(): JSX.Element {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-
-  type FormData = {
-    username: string
-    email: string
-    password: string
-    gender: string
-    age: number
-  }
 
   const {
     register,
@@ -29,7 +29,7 @@ export function RegisterPage(): JSX.Element {
   }
 
   const navigateToLogin = () => {
-    navigate(`${RoutesClass.root}${RoutesClass.login}`)
+    navigate(`${MainRoutes.root}${MainRoutes.login}`)
   }
 
   return (

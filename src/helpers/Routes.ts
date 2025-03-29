@@ -1,4 +1,4 @@
-export const RoutesClass = {
+export const MainRoutes = {
   root: '/Todo-List-React-TS/',
   login: 'login',
   register: 'register',

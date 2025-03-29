@@ -3,13 +3,18 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { ModalWindow } from './ModalWindow'
-import { RoutesClass } from '../helpers/Routes'
+import { MainRoutes } from '../helpers/Routes'
 import {
   fetchPostLogin,
   selectStatus,
   clearUsersState,
 } from '../redux/slices/usersSlice'
 import { useAppSelector, useAppDispatch } from '../hooks/hooks'
+
+type FormData = {
+  email: string
+  password: string
+}
 
 export const LoginPage = (): JSX.Element => {
   const dispatch = useAppDispatch()
@@ -18,7 +23,7 @@ export const LoginPage = (): JSX.Element => {
 
   useEffect(() => {
     if (status === 'succeeded') {
-      navigate(`${RoutesClass.root}${RoutesClass.todos}`)
+      navigate(`${MainRoutes.root}${MainRoutes.todos}`)
       dispatch(clearUsersState())
     }
   }, [status, navigate])
@@ -29,17 +34,12 @@ export const LoginPage = (): JSX.Element => {
     formState: { errors },
   } = useForm<FormData>()
 
-  type FormData = {
-    email: string
-    password: string
-  }
-
   const onSubmit: SubmitHandler<FormData> = (data) => {
     dispatch(fetchPostLogin(data))
   }
 
   const onClickLogout = () => {
-    navigate(`${RoutesClass.root}${RoutesClass.register}`)
+    navigate(`${MainRoutes.root}${MainRoutes.register}`)
   }
 
   return (

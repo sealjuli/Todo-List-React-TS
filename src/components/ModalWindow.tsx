@@ -5,7 +5,7 @@ import {
   selectMessage,
 } from '../redux/slices/usersSlice'
 import { useNavigate } from 'react-router'
-import { RoutesClass } from '../helpers/Routes'
+import { MainRoutes } from '../helpers/Routes'
 import { useAppSelector, useAppDispatch } from '../hooks/hooks'
 
 export const ModalWindow = (): JSX.Element => {
@@ -20,7 +20,7 @@ export const ModalWindow = (): JSX.Element => {
       onClick={() => {
         dispatch(clearUsersState())
         if (message) {
-          navigate(`${RoutesClass.root}${RoutesClass.login}`)
+          navigate(`${MainRoutes.root}${MainRoutes.login}`)
           dispatch(clearUsersState())
         }
       }}

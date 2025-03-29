@@ -4,7 +4,7 @@ import { fetchGetTodos } from '../redux/slices/todosSlice'
 import { useNavigate } from 'react-router'
 import { TaskInput } from './TaskInput'
 import { Tasks } from './Tasks'
-import { RoutesClass } from '../helpers/Routes'
+import { MainRoutes } from '../helpers/Routes'
 
 export function Todo(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -16,7 +16,7 @@ export function Todo(): JSX.Element {
 
   const onClickLogout = () => {
     localStorage.removeItem('token')
-    navigate(`${RoutesClass.root}${RoutesClass.login}`)
+    navigate(`${MainRoutes.root}${MainRoutes.login}`)
   }
 
   return (
